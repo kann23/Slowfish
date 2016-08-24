@@ -204,8 +204,6 @@ void Search::perftHelper(Node* &node, int &total, bool &nodeComplete, int &count
 	Node* temp = node->getPossible(count);
 
 	perftHelper(temp, total, nodeComplete, count1, total1);
-	if (total == 477)
-		int a = 1;
 
 	if (nodeComplete) {
 		if (node->getPossible(node->getPosition())->getMove() == "end") {
@@ -215,11 +213,6 @@ void Search::perftHelper(Node* &node, int &total, bool &nodeComplete, int &count
 		node->setPosition();
 		if (node->getPossible(node->getPosition())->getMove() == "end") {
 			node->resetPosition();
-			//            total1 += (total-count1);
-			//            if(total-count1 == 0)
-			//                std::cout << node->getFen() << "\t" << node->getMove() << " " <<  total-count1 << " " << total1 << std::endl;
-			//            std::cout << node->getFen() << "\t" << node->getMove() << " " <<  total-count1 << std::endl;
-			//            std::cout << node->getMove() << " " << total-count1 << std::endl;
 			count1 = total;
 			return;
 		}
