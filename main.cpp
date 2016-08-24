@@ -15,9 +15,9 @@ int main() {
 
 
 	//boardA(startFen);
-	//search(startFen);
+	search(startFen);
 
-	UCI uci;
+	//UCI uci;
 
 	//while (true) {
 	//	std::cin >> startFen;
@@ -29,13 +29,13 @@ int main() {
 }
 
 void search(string fen) {
-	    Search search; 
-	//Search search("r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10");
+	//Search search; 
+	Search search("r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10");
 
 	//    search.perft(4);
 	for (int i = 0; i < 3; i++) {
 		search.addPly();
-		//search.preferredVariation();
+		search.preferredVariation();
 	}
 
 }
