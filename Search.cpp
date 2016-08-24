@@ -156,6 +156,7 @@ int Search::fillNodeArray(Node*& node) {
 		newMove = moves[count];
 		if (newMove == "*") {
 			node->setPossibleMoves("end", "end", count);
+			minMax(node);
 			return count;
 		}
 		aBoard->makeMove(newMove);
