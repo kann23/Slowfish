@@ -29,5 +29,6 @@ public:
 private:
 	BoardA* board;
 	std::ofstream stream;
+	std::string bestMove;
 };
 
