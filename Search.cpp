@@ -23,7 +23,7 @@ void Search::addPly() {
 	bool nodeComplete = false;
 
 	findNode(head, total, nodeComplete, toMove);
-	std::cout << total << " " << head->getScore() << std::endl;
+	//std::cout << total << " " << head->getScore() << std::endl;
 }
 
 void Search::findNode(Node* &node, int &total, bool &nodeComplete, int move) {
@@ -106,32 +106,6 @@ void Search::minMax(Node* &node) {
 	node->setScore(score);
 }
 
-void Search::preferredVariation() {
-	Node* node = head;
-	int count = 0;
-	int score = node->getScore();
-
-	while (true) {
-		if (node->getPossible(count)->getMove() == "end") {
-			std::cout << node->getMove() << std::endl;
-			return;
-		}
-		if (node->getPossible(count)->getScore() == score) {
-			if (node != head)
-				std::cout << node->getMove() << " ";
-			node = node->getPossible(count);
-			if (node->getPossible(0) == NULL) {
-				std::cout << node->getMove() << std::endl;
-				return;
-			}
-			count = 0;
-			continue;
-		}
-		count++;
-	}
-	std::cout << std::endl;
-}
-
 int Search::fillNodeArray(Node*& node) {
 	std::string fen = node->getFen();
 	std::string newFen = " ";
@@ -156,7 +130,6 @@ int Search::fillNodeArray(Node*& node) {
 		newMove = moves[count];
 		if (newMove == "*") {
 			node->setPossibleMoves("end", "end", count);
-			minMax(node);
 			return count;
 		}
 		aBoard->makeMove(newMove);
@@ -170,6 +143,47 @@ int Search::fillNodeArray(Node*& node) {
 	}
 	minMax(node);
 	return count;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+std::string Search::getBestMove() {
+	std::string bestMove = " ";
+	int bestScore = head->getScore();
+	int count = 0;
+
+	while (count < SizeOfArray) {
+		if (head->getPossible(count)->getScore() == bestScore)
+			return head->getPossible(count)->getMove();
+		count++;
+	}
+}
+
+void Search::preferredVariation() {
+	Node* node = head;
+	int count = 0;
+	int score = node->getScore();
+
+	while (true) {
+		if (node->getPossible(count)->getMove() == "end") {
+			std::cout << node->getMove() << std::endl;
+			return;
+		}
+		if (node->getPossible(count)->getScore() == score) {
+			if (node != head)
+				std::cout << node->getMove() << " ";
+			node = node->getPossible(count);
+			if (node->getPossible(0) == NULL) {
+				std::cout << node->getMove() << std::endl;
+				return;
+			}
+			count = 0;
+			continue;
+		}
+		count++;
+	}
+	std::cout << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -204,6 +218,8 @@ void Search::perftHelper(Node* &node, int &total, bool &nodeComplete, int &count
 	Node* temp = node->getPossible(count);
 
 	perftHelper(temp, total, nodeComplete, count1, total1);
+	if (total == 477)
+		int a = 1;
 
 	if (nodeComplete) {
 		if (node->getPossible(node->getPosition())->getMove() == "end") {
@@ -213,6 +229,11 @@ void Search::perftHelper(Node* &node, int &total, bool &nodeComplete, int &count
 		node->setPosition();
 		if (node->getPossible(node->getPosition())->getMove() == "end") {
 			node->resetPosition();
+			//            total1 += (total-count1);
+			//            if(total-count1 == 0)
+			//                std::cout << node->getFen() << "\t" << node->getMove() << " " <<  total-count1 << " " << total1 << std::endl;
+			//            std::cout << node->getFen() << "\t" << node->getMove() << " " <<  total-count1 << std::endl;
+			//            std::cout << node->getMove() << " " << total-count1 << std::endl;
 			count1 = total;
 			return;
 		}
