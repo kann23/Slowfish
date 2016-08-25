@@ -5,7 +5,6 @@
 UCI::UCI()
 {
 	std::cout.setf(std::ios::unitbuf);
-	//stream.open("C:\\Users\\cburd\\Desktop\\program output.txt", std::ofstream::app);
 	stream.open("C:\\Users\\cburd\\Desktop\\program output.txt");
 
 	std::string command = " ";
@@ -113,16 +112,29 @@ void UCI::ponder() {
 	std::string fen = board->getFEN();
 	Search search(fen);
 	int searchDepth = 0;
+	int peekValue = 0;
 
-	while (searchDepth < 5) {
+	while (searchDepth < 3) {
 		search.addPly();
-		std::cin >> command;
-		stream << command;
+		bestMove = search.getBestMove();
+		searchDepth++;
+		//std::cout << searchDepth << "\n";
+		
+		peekValue = std::cin.peek();
+		if (peekValue >= (int)' ') {
+			std::cin >> command;
+			stream << command;
+		}
+		
 		if (command == "stop")
 			return;
 		else if (command == "isready")
 			isReady();
+		else
+			continue;
 	}
+	std::cout << "bestmove " << bestMove << "\n";
+	stream << "bestmove " << bestMove << "\n";
 }
 
 void UCI::isReady() {
