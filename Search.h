@@ -20,6 +20,8 @@ public:
 	void addPly();
 	void findNode(Node* &node, int &total, bool &nodeComplete, int move);
 	void minMax(Node* &node);
+	
+	std::string getBestMove();
 
 	int fillNodeArray(Node* &node);
 	int fillArray(Node* &node);
